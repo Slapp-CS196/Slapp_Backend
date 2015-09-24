@@ -27,7 +27,11 @@ def return_all():
 
 @app.route('/api/nearby', methods=['GET'])
 def return_nearby():
-    returned_events = [event for event in events if event['latitude'] < 41]
+    returned_events = []
+    if 'latitude' in request.args:
+        print request.args['latitude']
+        returned_events = [event for event in events if event['latitude'] < int(request.args['latitude'])]
+        print returned_events
     return jsonify({"events" : returned_events})
 
 if __name__ == '__main__':

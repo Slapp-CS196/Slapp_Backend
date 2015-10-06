@@ -7,7 +7,7 @@ class Slapp(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, unique=True)
-    time = db.Column(db.DateTime)
+    time = db.Column(db.Integer)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
 

@@ -22,17 +22,33 @@ def create_new():
 @app.route('/api/slapps', methods=['GET'])
 def return_all():
     slapps = Slapp.query.all()
-    return slapps
+    slapp_list = []
+    for result in slapps:
+        new_slapp = {}
+        new_slapp['id'] = result.id
+        new_slapp['user_id'] = result.user_id
+        new_slapp['time'] = result.time
+        new_slapp['latitude'] = result.latitude
+        new_slapp['longitude'] = result.longitude
+        slapp_list.append(new_slapp)
+    return jsonify(slapps=slapp_list)
 
-# @app.route('/api/nearby', methods=['GET'])
-# def return_nearby():
-#     returned_events = []
-#     if 'latitude' and 'longitude' and 'time' in request.args:
-#         print request.args['latitude'] + " " + request.args['longitude']
-#         returned_events = [event for event in events if abs(event['latitude'] - int(request.args['latitude'])) < 1 and abs(event['longitude'] - int(request.args['longitude'])) < 1]
-#         print returned_events
-#     return jsonify({"events" : returned_events})
-
+@app.route('/api/nearby', methods=['GET'])
+def return_nearby():
+    if 'latitude' and 'longitude' in request.args:
+        slapps = db.engine.execute("SELECT * FROM slapps WHERE ABS(latitude - " + request.args['latitude'] + ") < 2 AND ABS(longitude - " + request.args['longitude'] + ") < 2")
+        slapp_list = []
+        for result in slapps:
+            new_slapp = {}
+            new_slapp['id'] = result.id
+            new_slapp['user_id'] = result.user_id
+            new_slapp['time'] = result.time
+            new_slapp['latitude'] = result.latitude
+            new_slapp['longitude'] = result.longitude
+            slapp_list.append(new_slapp)
+        return jsonify(nearby=slapp_list)
+    else:
+        return "Not enough params"
 if __name__ == '__main__':
     db.init_app(app)
     app.run(debug=True)

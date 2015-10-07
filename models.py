@@ -11,10 +11,12 @@ class Slapp(db.Model):
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
 
-    def __init__(self, time, latitude, longitude):
+    def __init__(self, user_id, time, latitude, longitude, radius):
+        self.user_id = user_id
         self.time = time
         self.latitude = latitude
         self.longitude = longitude
+        self.radius = radius
 
     def __repr__(self):
         return '<Item %r>' % self.time

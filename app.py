@@ -7,12 +7,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 @app.route('/api/new', methods=['GET'])
 def create_new():
-    if 'user_id' and 'time' and 'latitude' and 'longitude' in request.args:
+    if 'user_id' and 'time' and 'latitude' and 'longitude' and 'radius' in request.args:
         user_id = request.args['user_id']
         time = request.args['time']
         latitude = request.args['latitude']
         longitude = request.args['longitude']
-        slapp = Slapp(user_id, time, latitude, longitude)
+        radius = request.args['radius']
+        slapp = Slapp(user_id, time, latitude, longitude, radius)
         db.session.add(slapp)
         db.session.commit()
         return 'Success'
@@ -30,13 +31,14 @@ def return_all():
         new_slapp['time'] = result.time
         new_slapp['latitude'] = result.latitude
         new_slapp['longitude'] = result.longitude
+        new_slap['radius'] = result.radius
         slapp_list.append(new_slapp)
     return jsonify(slapps=slapp_list)
 
 @app.route('/api/nearby', methods=['GET'])
 def return_nearby():
-    if 'latitude' and 'longitude' in request.args:
-        slapps = db.engine.execute("SELECT * FROM slapps WHERE ABS(latitude - " + request.args['latitude'] + ") < 2 AND ABS(longitude - " + request.args['longitude'] + ") < 2")
+    if 'latitude' and 'longitude' and 'radius' in request.args:
+        slapps = db.engine.execute("SELECT * FROM slapps WHERE ABS(latitude - " + request.args['latitude'] + ") < " + request.args['radius'] + " AND ABS(longitude - " + request.args['longitude'] + ") < " + request.args['radius'])
         slapp_list = []
         for result in slapps:
             new_slapp = {}
@@ -45,6 +47,7 @@ def return_nearby():
             new_slapp['time'] = result.time
             new_slapp['latitude'] = result.latitude
             new_slapp['longitude'] = result.longitude
+            new_slapp['radius'] = result.radius
             slapp_list.append(new_slapp)
         return jsonify(nearby=slapp_list)
     else:

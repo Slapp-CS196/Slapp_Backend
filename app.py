@@ -53,5 +53,6 @@ def return_nearby():
     else:
         return "Not enough params"
 if __name__ == '__main__':
+    port = int(os.environ.get("PORT",5000))
     db.init_app(app)
     app.run(debug=True)

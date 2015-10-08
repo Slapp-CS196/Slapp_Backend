@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, request
 from models import db, Slapp
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -55,4 +56,4 @@ def return_nearby():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT",5000))
     db.init_app(app)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port)

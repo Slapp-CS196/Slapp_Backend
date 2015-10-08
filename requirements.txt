@@ -1,5 +1,4 @@
 backports.ssl-match-hostname==3.4.0.2
-blivet==1.0.10
 chardet==2.2.1
 coverage==4.0b3
 decorator==3.4.0

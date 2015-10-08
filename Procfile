@@ -1,1 +1,1 @@
-web: python Slapp_Backend/app.py
+web: python app.py

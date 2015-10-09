@@ -6,6 +6,9 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
+@app.route('/', methods=['GET'])
+def test_working():
+    return 'I think I\'m working kinda?'
 @app.route('/api/new', methods=['GET'])
 def create_new():
     if 'user_id' and 'time' and 'latitude' and 'longitude' and 'radius' in request.args:

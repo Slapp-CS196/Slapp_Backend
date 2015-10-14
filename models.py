@@ -10,7 +10,7 @@ class Slapp(db.Model):
     time = db.Column(db.Integer)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
-    readius = db.Column(db.Integer)
+    radius = db.Column(db.Integer)
 
     def __init__(self, user_id, time, latitude, longitude, radius):
         self.user_id = user_id

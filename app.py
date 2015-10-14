@@ -35,7 +35,7 @@ def return_all():
         new_slapp['time'] = result.time
         new_slapp['latitude'] = result.latitude
         new_slapp['longitude'] = result.longitude
-        new_slap['radius'] = result.radius
+        new_slapp['radius'] = result.radius
         slapp_list.append(new_slapp)
     return jsonify(slapps=slapp_list)
 
@@ -59,4 +59,4 @@ def return_nearby():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT",5000))
     db.init_app(app)
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)

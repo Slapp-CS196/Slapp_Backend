@@ -6,7 +6,7 @@ class Slapp(db.Model):
     __tablename__ = 'slapps'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, unique=True)
+    user_id = db.Column(db.Integer)
     time = db.Column(db.Integer)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)

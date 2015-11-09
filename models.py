@@ -14,6 +14,7 @@ class Slapp(db.Model):
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     radius = db.Column(db.Integer)
+    matched_id = db.Column(db.Integer)
 
     def __init__(self, user_id, time, latitude, longitude, radius):
         self.user_id = user_id

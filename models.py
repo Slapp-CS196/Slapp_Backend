@@ -32,7 +32,7 @@ class User(db.Model):
      email = db.Column(db.String)
      join_date = db.Column(db.Integer)
      username = db.Column(db.String(30))
-     passwrod = db.Column(db.String(80))
+     password = db.Column(db.String(80))
      
      def __init__(self, email, join_date, username, password):
 	self.email = email

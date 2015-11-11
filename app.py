@@ -70,7 +70,7 @@ def return_nearby():
         return jsonify(nearby=slapp_list)
     else:
         return "Not enough params"
+db.init_app(app)
 if __name__ == '__main__':
     port = int(os.environ.get("PORT",80))
-    db.init_app(app)
     app.run(host='0.0.0.0', port=port, debug=True)

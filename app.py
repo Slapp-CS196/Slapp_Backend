@@ -52,7 +52,17 @@ def return_all():
         new_slapp['radius'] = result.radius
         slapp_list.append(new_slapp)
     return jsonify(slapps=slapp_list)
-
+@app.route('/api/checkMatch' methods=['GET'])
+def return_match():
+    if 'latitude' and 'longitude' and 'radius' and 'curr_id' in request.args:
+        my_slapp = db.engine.execute("SELECT * FROM slapps WHERE id = " + request.args['curr_id'])
+        close_slapps = db.engine.execute("SELECT * FROM slapps WHERE ABS(latitude - " + request.args['latitude'] + ") < " + request.args['radius'] + " AND ABS(longitude - " + request.args['longitude'] + ") < " + request.args['radius'] + "AND id != " + request.args['curr_id'])
+        best_match_id = -1
+        best_match_score = 99999999
+        #for possible_match in close_slapps:
+        #    curr_match_score = 
+    else:
+        return "Not enough params"
 @app.route('/api/nearby', methods=['GET'])
 def return_nearby():
     if 'latitude' and 'longitude' and 'radius' in request.args:
@@ -70,6 +80,7 @@ def return_nearby():
         return jsonify(nearby=slapp_list)
     else:
         return "Not enough params"
+
 db.init_app(app)
 if __name__ == '__main__':
     port = int(os.environ.get("PORT",80))

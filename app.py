@@ -46,6 +46,20 @@ def newUser():
         return 'User added'
     else:
         return 'Error, not enough parameters'
+@app.route('/api/getUser', methods=['GET'])
+def getUser():
+    if 'user_id' in request.args:
+        users = db.engine.execute("SELECT * FROM users WHERE id = " + request.args['user_id'])
+        user_list = []
+        for user in users:
+            new_user = {}
+            new_user['id'] = user.id
+            new_user['email'] = user.email
+            new_user['join_date'] = user.join_date
+            user_list.append(new_user)
+        return jsonify(users=user_list)
+    else:
+        return 'Error, not enough parameters'
 @app.route('/api/slapps', methods=['GET'])
 def return_all():
     slapps = Slapp.query.all()

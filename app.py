@@ -37,7 +37,15 @@ def create_new():
         return jsonify(slapps=slapp_list)
     else:
         return 'Error, not enough parameters'
-
+@app.route('/api/newUser', methods=['GET'])
+def newUser():
+    if 'email' and 'join_date' and 'username' and 'password' in request.args:
+        user = User(request.args['email'],request.args['join_date'],request.args['username'],request.args['password'])
+        db.session.add(user)
+        db.session.commit()
+        return 'User added'
+    else:
+        return 'Error, not enough parameters'
 @app.route('/api/slapps', methods=['GET'])
 def return_all():
     slapps = Slapp.query.all()

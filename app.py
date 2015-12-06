@@ -72,6 +72,23 @@ def newLink():
         return 'Link added'
     else:
         return 'Error, not enough parameters'
+@app.route('/api/setActiveProf', methods=['GET'])
+def setActive():
+    if 'email' and 'prof_id' in request.args:
+        user = db.session.query(User).filter(User.email==request,args['email'])
+        user.curr_profile = request.args['prof_id']
+        db.session.add(user)
+        db.session.commit()
+        return 'Active Profile Updated'
+    else:
+        return 'Error, not enough parameters'
+@app.route('/api/getActiveProf', methods=['GET'])
+def getActive():
+    if 'email' in request.args:
+        user = db.session.query(User).filter(User.email==request.args['email'])
+        return user.curr_profile
+    else:
+        return 'Error, not enough parameters'
 @app.route('/api/getUserProfs', methods=['GET'])
 def getProfiles():
     if 'email' in request.args:

@@ -22,6 +22,7 @@ class Slapp(db.Model):
         self.latitude = latitude
         self.longitude = longitude
         self.radius = radius
+        self.matched_id = -1
 
     def __repr__(self):
         return '<Item %r>' % self.time
@@ -44,6 +45,7 @@ class User(db.Model):
     	self.password = password
         self.first_name = first_name
         self.last_name = last_name
+        self.curr_profile = -1
      def __repr__(self):
 	   return '<Item %r>' % self.username
 class Profile(db.Model):

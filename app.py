@@ -74,7 +74,7 @@ def return_all():
         new_slapp['radius'] = result.radius
         slapp_list.append(new_slapp)
     return jsonify(slapps=slapp_list)
-@app.route('/api/checkMatch' methods=['GET'])
+@app.route('/api/checkMatch', methods=['GET'])
 def return_match():
     if 'latitude' and 'longitude' and 'radius' and 'curr_id' in request.args:
         my_slapp = db.engine.execute("SELECT * FROM slapps WHERE id = " + request.args['curr_id'])
@@ -89,14 +89,14 @@ def return_match():
             best_slapp = db.engine.execute("SELECT * FROM slapps WHERE id = " + best_match_id)
             slapp_list = []
             for result in best_slapp:
-            new_slapp = {}
-            new_slapp['id'] = result.id
-            new_slapp['user_id'] = result.user_id
-            new_slapp['time'] = result.time
-            new_slapp['latitude'] = result.latitude
-            new_slapp['longitude'] = result.longitude
-            new_slapp['radius'] = result.radius
-            slapp_list.append(new_slapp)
+                new_slapp = {}
+                new_slapp['id'] = result.id
+                new_slapp['user_id'] = result.user_id
+                new_slapp['time'] = result.time
+                new_slapp['latitude'] = result.latitude
+                new_slapp['longitude'] = result.longitude
+                new_slapp['radius'] = result.radius
+                slapp_list.append(new_slapp)
             return jsonify(nearby=slapp_list)
         else:
             return "No match"

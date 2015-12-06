@@ -70,6 +70,43 @@ def newLink():
         db.session.add(profile)
         db.session.commit()
         return 'Link added'
+    else:
+        return 'Error, not enough parameters'
+@app.route('/api/getUserProfs', methods=['GET'])
+def getProfiles():
+    if 'email' in request.args:
+        profiles = db.session.query(Profile).filter(Profile.email==request.args['email'])
+        profString = ""
+        for profile in profiles:
+            if profString == "":
+                profString = str(profile.id)
+            else:
+                profString = profString + "," + str(profile.id)
+        return profString
+    else:
+        return 'Error, not enough parameters'
+@app.route('/api/getProfData', methods=['GET'])
+def getProfData():
+    if 'id' in request.args:
+        profile = db.session.query(Profile).filter(Profile.id==request.args['id'])
+        links = db.session.query(Link).filter(Link.prof_id==profile.id)
+        dataList = ""
+        for link in links:
+            if dataList == "":
+                dataList = link.link_type + ":" + link.link_data
+            else:
+                dataList = dataList + "," + link.link_type + ":" + link.link_data
+        return dataList
+    else:
+        return 'Error, not enough parameters'
+@app.route('/api/removeProf', methods=['GET'])
+def delProf():
+    if 'id' in request.args:
+        db.session.query(Profile).filter(Profile.id==request.args['id']).one().delete()
+        db.session.commit()
+        return 'Profile deleted'
+    else:
+        return 'Error, not enough parameters'
 db.init_app(app)
 if __name__ == '__main__':
     port = int(os.environ.get("PORT",80))

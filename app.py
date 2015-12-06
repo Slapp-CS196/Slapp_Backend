@@ -74,7 +74,7 @@ def return_all():
         new_slapp['radius'] = result.radius
         slapp_list.append(new_slapp)
     return jsonify(slapps=slapp_list)
-@app.route('/api/checkMatch' methods=['GET'])
+@app.route('/api/checkMatch', methods=['GET'])
 def return_match():
     if 'latitude' and 'longitude' and 'radius' and 'curr_id' in request.args:
         my_slapp = db.engine.execute("SELECT * FROM slapps WHERE id = " + request.args['curr_id'])

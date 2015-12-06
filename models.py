@@ -9,15 +9,15 @@ class Slapp(db.Model):
     __tablename__ = 'slapps'
 
     id = db.Column(db.Integer, primary_key=True)
-    email_address = db.Column(db.String(40))
+    email = db.Column(db.String(40))
     time = db.Column(db.Integer)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     radius = db.Column(db.Integer)
     matched_id = db.Column(db.Integer)
 
-    def __init__(self, email_address, time, latitude, longitude, radius):
-        self.email_address = email_address
+    def __init__(self, email, time, latitude, longitude, radius):
+        self.email = email
         self.time = time
         self.latitude = latitude
         self.longitude = longitude
@@ -37,38 +37,38 @@ class User(db.Model):
      first_name = db.Column(db.String(30))
      last_name = db.Column(db.String(30))
      
-    def __init__(self, email, join_date, username, password, first_name, last_name):
+     def __init__(self, email, join_date, username, password, first_name, last_name):
     	self.email = email
     	self.join_date = join_date
     	self.username = username
     	self.password = password
         self.first_name = first_name
         self.last_name = last_name
-    def __repr__(self):
+     def __repr__(self):
 	   return '<Item %r>' % self.username
 class Profile(db.Model):
-    __tablename__ = 'profiles'
+     __tablename__ = 'profiles'
 
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(40))
-    prof_name = db.Column(db.String(30))
-    link_list = db.Column(db.String(80))
+     id = db.Column(db.Integer, primary_key=True)
+     email = db.Column(db.String(40))
+     prof_name = db.Column(db.String(30))
+     link_list = db.Column(db.String(80))
 
-    def __init__(self, email, prof_name, link_list):
+     def __init__(self, email, prof_name):
         self.email = email
         self.prof_name = prof_name
-        self.link_list = link_list
-    def __repr__(self):
+        self.link_list = " "
+     def __repr__(self):
         return '<Item %r>' % self.prof_name
 class Link(db.Model):
-    __tablename__ = 'links'
+     __tablename__ = 'links'
 
-    id = db.Column(db.Integer, primary_key=True)
-    link_type = db.Column(db.String(50))
-    link_data = db.Column(db.String(100))
-
-    def __init__(self, link_type, link_data)
+     id = db.Column(db.Integer, primary_key=True)
+     link_type = db.Column(db.String(50))
+     link_data = db.Column(db.String(100))
+ 
+     def __init__(self, link_type, link_data):
         self.link_type = link_type
         self.link_data = link_data
-    def __repr__(self):
+     def __repr__(self):
         return '<Item %r>' % self.link_type

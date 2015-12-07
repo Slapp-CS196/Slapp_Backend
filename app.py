@@ -20,7 +20,7 @@ def newSlapp():
         slapp = Slapp(email, time, latitude, longitude, radius)
         db.session.add(slapp)
         db.session.commit()
-        return 'Slapp_added'
+        return 'Slapp' + slapp.id + 'added'
         '''slapps = Slapp.query.all()
         slapp_list = []
         for result in slapps:
@@ -40,11 +40,11 @@ def newSlapp():
         return 'Error, not enough parameters'
 @app.route('/api/newUser', methods=['GET'])
 def newUser():
-    if 'email' and 'join_date' and 'username' and 'password' and 'first_name' and 'last_name' in request.args:
-        user = User(request.args['email'],request.args['join_date'],request.args['username'],request.args['password'],request.args['first_name'],request.args['last_name'])
+    if 'email' and 'password' and 'first_name' and 'last_name' in request.args:
+        user = User(request.args['email'],request.args['password'],request.args['first_name'],request.args['last_name'])
         db.session.add(user)
         db.session.commit()
-        return 'User added'
+        return 'User ' + user.id + ' added'
     else:
         return 'Error, not enough parameters'
 @app.route('/api/newProfile', methods=['GET'])
@@ -53,7 +53,7 @@ def newProfile():
         profile = Profile(request.args['email'],request.args['prof_name'])
         db.session.add(profile)
         db.session.commit()
-        return 'Profile added'
+        return 'Profile ' + profile.id + ' added'
     else:
         return 'Error, not enough parameters'
 @app.route('/api/newLink', methods=['GET'])
@@ -69,7 +69,7 @@ def newLink():
             profile.link_list = link.id
         db.session.add(profile)
         db.session.commit()
-        return 'Link added'
+        return 'Link ' + link.id + ' added'
     else:
         return 'Error, not enough parameters'
 @app.route('/api/setActiveProf', methods=['GET'])
@@ -114,6 +114,34 @@ def getProfData():
             else:
                 dataList = dataList + "," + link.link_type + ":" + link.link_data
         return dataList
+    else:
+        return 'Error, not enough parameters'
+@app.route('/api/getMatch', methods=['GET'])
+def getMatch():
+    if 'id' in request.args:
+        slapp = db.session.query(Slapp).filter(Slapp.id==request.args['id'])
+        matchList = db.engine.execute("SELECT * FROM slapps WHERE abs(longitude - " + slapp.longitude + ") < (radius + " + slapp.radius + ") AND ABS(time - " + slapp.time + ") < 1 AND ABS(latitude - " + slapp.latitude + ") < (radius + " + slapp.radius + ")")
+        bestScore = 999999
+        match_id = -1
+        for match in matchList:
+            matchScore = abs(match.longitude - longitude)**2 + abs(match.latitude - latitude)**2 + time * 10
+            if matchScore < bestScore:
+                match_id = match.id
+                bestScore = matchScore
+        if match_id != -1:
+            return db.engine.execute("SELECT * FROM slapps WHERE id = " + match_id).email
+        else:
+            return 'No Match'
+    else:
+        return 'Error, not enough parameters'
+@app.route('/api/getLogin', methods=['GET'])
+def getLogin():
+    if 'email' and 'password' in request.args:
+        account = db.engine.execute("SELECT * FROM users WHERE email = " + email)
+        if account.password == request.args['password']:
+            return "Login success"
+        else:
+            return "Wrong password"
     else:
         return 'Error, not enough parameters'
 @app.route('/api/removeProf', methods=['GET'])

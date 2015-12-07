@@ -31,17 +31,15 @@ class User(db.Model):
 
      id = db.Column(db.Integer, primary_key=True)
      email = db.Column(db.String(40))
-     join_date = db.Column(db.Integer)
-     username = db.Column(db.String(30))
+     join_date = db.Column(db.String(50))
      password = db.Column(db.String(80))
      curr_profile = db.Column(db.Integer)
      first_name = db.Column(db.String(30))
      last_name = db.Column(db.String(30))
      
-     def __init__(self, email, join_date, username, password, first_name, last_name):
+     def __init__(self, email, password, first_name, last_name):
     	self.email = email
-    	self.join_date = join_date
-    	self.username = username
+    	self.join_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     	self.password = password
         self.first_name = first_name
         self.last_name = last_name

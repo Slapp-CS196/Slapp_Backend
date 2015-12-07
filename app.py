@@ -5,6 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+currentSlappId = 0
 
 @app.route('/', methods=['GET'])
 def test_working():
@@ -17,7 +18,9 @@ def newSlapp():
         latitude = request.args['latitude']
         longitude = request.args['longitude']
         radius = request.args['radius']
-        slapp = Slapp(email, time, latitude, longitude, radius)
+		id = currentSlappId
+		currentId = currentSlappId + 1
+        slapp = Slapp(id, email, time, latitude, longitude, radius)
         db.session.add(slapp)
         db.session.commit()
         return 'Slapp' + str(slapp.id) + 'added'

@@ -1,5 +1,5 @@
 Backend
 =======
 api/slapps will return all slapps,
-api/nearby takes in a latitude, longitude and radius and gives back results within that range,
+api/nearby takes in a time, latitude, longitude and radius and gives back results within that range,
 and api/new takes latitude, longitude, radius, time and user_id to store a new slapp in the database

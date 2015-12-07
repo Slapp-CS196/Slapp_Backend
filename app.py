@@ -44,7 +44,7 @@ def newUser():
         user = User(request.args['email'],request.args['password'],request.args['first_name'],request.args['last_name'])
         db.session.add(user)
         db.session.commit()
-        return 'User ' + str(user.id) + ' added'
+        return 'User ' + str(user.email) + ' added'
     else:
         return 'Error, not enough parameters'
 @app.route('/api/newProfile', methods=['GET'])

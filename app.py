@@ -117,7 +117,7 @@ def getProfName():
         return 'Error, not enough parameters'
 @app.route('/api/getProfData', methods=['GET'])
 def getProfData():
-    if 'id' in request.args:
+    if 'prof_id' in request.args:
         profile = db.session.query(Profile).filter(Profile.id==request.args['id'])
         links = db.session.query(Link).filter(Link.prof_id==profile.id)
         dataList = ""
@@ -162,7 +162,7 @@ def getLogin():
         return 'Error, not enough parameters'
 @app.route('/api/removeProf', methods=['GET'])
 def delProf():
-    if 'id' in request.args:
+    if 'prof_id' in request.args:
         db.session.query(Profile).filter(Profile.id==request.args['id']).one().delete()
         db.session.commit()
         return 'Profile deleted'

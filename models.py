@@ -46,7 +46,7 @@ class User(db.Model):
         self.last_name = last_name
         self.curr_profile = -1
      def __repr__(self):
-	   return '<Item %r>' % self.username
+	   return '<Item %r>' % self.email
 class Profile(db.Model):
      __tablename__ = 'profiles'
 

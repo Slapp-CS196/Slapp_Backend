@@ -89,7 +89,7 @@ def setActive():
 def getActive():
     if 'email' in request.args:
         user = db.session.query(User).filter(User.email==request.args['email']).first()
-        return user.str(curr_profile)
+        return str(user.curr_profile)
     else:
         return 'Error, not enough parameters'
 @app.route('/api/getUserProfs', methods=['GET'])

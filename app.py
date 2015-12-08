@@ -161,6 +161,18 @@ def getLogin():
                 return "Wrong password"
     else:
         return 'Error, not enough parameters'
+@app.route('/api/getActiveProfName', methods=['GET'])
+def getActive():
+    if 'email' in request.args:
+       user = db.session.query(User).filter(User.email==request.args['email']).first()
+       curr_profile = user.curr_profile
+       if curr_profile == -1:
+           return str(curr_profile)
+       else:
+           profile = db.session.query(Profile).filter(Profile.id==curr_profile).first()
+           return str(profile.prof_name)
+    else:
+       return 'Error, not enough parameters'
 @app.route('/api/removeProf', methods=['GET'])
 def delProf():
     if 'prof_id' in request.args:

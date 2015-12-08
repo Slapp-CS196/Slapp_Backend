@@ -86,7 +86,7 @@ def setActive():
     else:
         return 'Error, not enough parameters'
 @app.route('/api/getActiveProf', methods=['GET'])
-def getActive():
+def getActiveProf():
     if 'email' in request.args:
         user = db.session.query(User).filter(User.email==request.args['email']).first()
         return str(user.curr_profile)
@@ -161,7 +161,7 @@ def getLogin():
     else:
         return 'Error, not enough parameters'
 @app.route('/api/getActiveProfName', methods=['GET'])
-def getActive():
+def getActiveProfName():
     if 'email' in request.args:
        user = db.session.query(User).filter(User.email==request.args['email']).first()
        curr_profile = user.curr_profile

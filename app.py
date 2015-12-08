@@ -56,7 +56,7 @@ def newProfile():
         profile = Profile(request.args['email'],request.args['prof_name'])
         db.session.add(profile)
         db.session.commit()
-        return 'Profile ' + str(profile.id) + ' added'
+        return str(profile.id)
     else:
         return 'Error, not enough parameters'
 @app.route('/api/newLink', methods=['GET'])

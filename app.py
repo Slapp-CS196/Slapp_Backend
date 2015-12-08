@@ -18,8 +18,8 @@ def newSlapp():
         latitude = request.args['latitude']
         longitude = request.args['longitude']
         radius = request.args['radius']
-		id = currentSlappId
-		currentId = currentSlappId + 1
+	id = currentSlappId
+	currentId = currentSlappId + 1
         slapp = Slapp(id, email, time, latitude, longitude, radius)
         db.session.add(slapp)
         db.session.commit()

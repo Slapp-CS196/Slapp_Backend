@@ -118,31 +118,32 @@ def getProfName():
 @app.route('/api/getProfData', methods=['GET'])
 def getProfData():
     if 'prof_id' in request.args:
-        profile = db.session.query(Profile).filter(Profile.id==request.args['id'])
-        links = db.session.query(Link).filter(Link.prof_id==profile.id)
+        profile = db.session.query(Profile).filter(Profile.id==request.args['prof_id']).one()
+        link_ids = profile.link_list.split(",")
+        links = db.engine.execute("SELECT * FROM links WHERE id IN (" + profile.link_list + ")")
         dataList = ""
         for link in links:
             if dataList == "":
                 dataList = link.link_type + ":" + link.link_data
             else:
                 dataList = dataList + "," + link.link_type + ":" + link.link_data
-        return dataList
+        return 'test' + dataList
     else:
         return 'Error, not enough parameters'
 @app.route('/api/getMatch', methods=['GET'])
 def getMatch():
     if 'id' in request.args:
-        slapp = db.session.query(Slapp).filter(Slapp.id==request.args['id'])
-        matchList = db.engine.execute("SELECT * FROM slapps WHERE abs(longitude - " + slapp.longitude + ") < (radius + " + slapp.radius + ") AND ABS(time - " + slapp.time + ") < 80 AND ABS(latitude - " + slapp.latitude + ") < (radius + " + slapp.radius + ")")
+        slapp = db.session.query(Slapp).filter(Slapp.id==request.args['id']).one()
+        matchList = db.engine.execute("SELECT * FROM slapps WHERE id != " + request.args['id'] + " AND abs(longitude - " + str(slapp.longitude) + ") < (radius + " + str(slapp.radius) + ") AND ABS(time - " + str(slapp.time) + ") < 80 AND ABS(latitude - " + str(slapp.latitude) + ") < (radius + " + str(slapp.radius) + ")")
         bestScore = 999999
         match_id = -1
         for match in matchList:
-            matchScore = abs(match.longitude - longitude)**2 + abs(match.latitude - latitude)**2 + time
+            matchScore = abs(match.longitude - slapp.longitude)**2 + abs(match.latitude - slapp.latitude)**2 + abs(match.time - slapp.time)
             if matchScore < bestScore:
                 match_id = match.id
                 bestScore = matchScore
         if match_id != -1:
-            matchSlapp = db.engine.execute("SELECT * FROM slapps WHERE id = " + match_id)
+            matchSlapp = db.engine.execute("SELECT * FROM slapps WHERE id = " + str(match_id))
             for slapp in matchSlapp:
                 return slapp.email
         else:
@@ -163,7 +164,7 @@ def getLogin():
 @app.route('/api/removeProf', methods=['GET'])
 def delProf():
     if 'prof_id' in request.args:
-        db.session.query(Profile).filter(Profile.id==request.args['id']).one().delete()
+        db.session.query(Profile).filter(Profile.id==request.args['prof_id']).delete()
         db.session.commit()
         return 'Profile deleted'
     else:

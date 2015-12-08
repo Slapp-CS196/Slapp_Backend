@@ -134,7 +134,7 @@ def getProfData():
 def getMatch():
     if 'id' in request.args:
         slapp = db.session.query(Slapp).filter(Slapp.id==request.args['id']).one()
-        matchList = db.engine.execute("SELECT * FROM slapps WHERE id != " + request.args['id'] + " AND abs(longitude - " + str(slapp.longitude) + ") < (radius + " + str(slapp.radius) + ") AND ABS(time - " + str(slapp.time) + ") < 80 AND ABS(latitude - " + str(slapp.latitude) + ") < (radius + " + str(slapp.radius) + ")")
+        matchList = db.engine.execute("SELECT * FROM slapps WHERE id != " + request.args['id'] + " AND abs(longitude - " + str(slapp.longitude) + ") < (radius + " + str(slapp.radius) + ") AND ABS(time - " + str(slapp.time) + ") < 2000 AND ABS(latitude - " + str(slapp.latitude) + ") < (radius + " + str(slapp.radius) + ")")
         bestScore = 999999
         match_id = -1
         for match in matchList:

@@ -156,9 +156,8 @@ def getLogin():
         accounts = db.engine.execute("SELECT * FROM users WHERE email = '" + request.args['email'] + "'")
         for account in accounts:
             if account.password == request.args['password']:
-                return "Login success"
-            else:
-                return "Wrong password"
+                return 'Login success'
+        return 'Invalid login'
     else:
         return 'Error, not enough parameters'
 @app.route('/api/getActiveProfName', methods=['GET'])

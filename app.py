@@ -78,7 +78,7 @@ def newLink():
 @app.route('/api/setActiveProf', methods=['GET'])
 def setActive():
     if 'email' and 'prof_id' in request.args:
-        user = db.session.query(User).filter(User.email==request,args['email'])
+        user = db.session.query(User).filter(User.email==request.args['email'])
         user.curr_profile = request.args['prof_id']
         db.session.add(user)
         db.session.commit()

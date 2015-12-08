@@ -109,10 +109,10 @@ def getProfiles():
 def getProfName():
     if 'prof_id' in request.args:
         profile = db.session.query(Profile).filter(Profile.id==request.args['prof_id']).first()
-        if profile is None
-        	return 'Profile not found'
-        else
-        	return profile.prof_name
+        if profile is None:
+            return 'Profile not found'
+        else:
+            return profile.prof_name
     else:
         return 'Error, not enough parameters'
 @app.route('/api/getProfData', methods=['GET'])

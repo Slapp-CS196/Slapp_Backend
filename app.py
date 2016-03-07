@@ -24,21 +24,6 @@ def newSlapp():
         db.session.add(slapp)
         db.session.commit()
         return 'Slapp' + str(slapp.id) + 'added'
-        '''slapps = Slapp.query.all()
-        slapp_list = []
-        for result in slapps:
-            if abs(result.time - request.args['time']) < 1:
-                if abs(result.latitude - request.args['latitude']) < request.args['radius'] + result.radius:
-                    if abs(result.longitude - request.args['longitude']) < request.args['radius'] + result.radius:
-                        new_slapp = {}
-                        new_slapp['id'] = result.id
-                        new_slapp['user_id'] = result.user_id
-                        new_slapp['time'] = result.time
-                        new_slapp['latitude'] = result.latitude
-                        new_slapp['longitude'] = result.longitude
-                        new_slapp['radius'] = result.radius
-                        slapp_list.append(new_slapp)
-        return jsonify(slapps=slapp_list)'''
     else:
         return 'Error, not enough parameters'
 @app.route('/api/newUser', methods=['GET'])
